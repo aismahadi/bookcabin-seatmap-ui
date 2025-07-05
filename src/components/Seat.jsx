@@ -14,13 +14,32 @@ const SeatIcon = ({ color = "text-gray-400" }) => (
 const Seat = ({ seat, onClick, isSelected }) => {
   const code = seat.code;
   const storefrontCode = seat.storefrontSlotCode;
+  const isHeader = storefrontCode === "HEADER";
   const isBlank = storefrontCode === "BLANK" || !code;
+  const notes = (storefrontCode === "WING") ? "🪽" : "";
 
-  if (isBlank) {
-    return <div className="w-10 h-10 m-1 opacity-0" />;
+  if (isHeader) {
+    if (typeof code === "string" && code.trim().length === 1) {
+      return (
+        <div
+          className="w-10 h-10 m-1 flex items-center justify-center text-gray-500"
+          title={code}
+        >
+          {code}
+        </div>
+      );
+    }
+    return <div className="w-10 h-10 m-1" />;
   }
 
-  // Decide icon color based on status
+  if (isBlank) {
+    return (
+      <div className="w-10 h-10 m-1 flex items-center justify-center">
+        {notes}
+      </div>
+    );
+  }
+
   let iconColor = "text-gray-400";
   if (!seat.available) iconColor = "text-red-500";
   else if (seat.freeOfCharge) iconColor = "text-blue-500";

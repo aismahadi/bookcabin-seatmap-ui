@@ -16,10 +16,13 @@ const LegendItem = ({ color, label }) => (
 );
 
 const Legend = () => (
-  <div className="space-y-3">
-    <LegendItem color="text-green-500" label="Available (Paid)" />
-    <LegendItem color="text-blue-500" label="Available (Free)" />
-    <LegendItem color="text-red-500" label="Unavailable" />
+  <div className="bg-white border shadow rounded-lg p-4 w-full">
+    <h4 className="text-md font-semibold mb-3 text-gray-800 border-b pb-1">Seat Legend</h4>
+      <div className="space-y-0">
+        <LegendItem color="text-green-500" label="Available (Paid)" />
+        <LegendItem color="text-blue-500" label="Available (Free)" />
+        <LegendItem color="text-red-500" label="Unavailable" />
+      </div>
   </div>
 );
 
