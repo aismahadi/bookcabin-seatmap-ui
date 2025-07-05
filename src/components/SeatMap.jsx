@@ -6,17 +6,24 @@ import Flight from "./Flight";
 
 const SeatMap = () => {
   const [seatData, setSeatData] = useState(null);
+  const [passangerData, setPassangerData] = useState(null);
   const [selectedSeat, setSelectedSeat] = useState(null);
 
   useEffect(() => {
     axios.get("http://localhost:8080/api/seatmap")
       .then((res) => setSeatData(res.data))
       .catch(console.error);
-  }, []);
+    
+    axios.get("http://localhost:8080/api/passenger")
+      .then((res) => setPassangerData(res.data))
+      .catch(console.error);
+  }, [], []);
 
-  if (!seatData) return <div className="p-6 text-lg">Loading seat map...</div>;
+  console.log(passangerData);
+  if (!passangerData || !seatData) return <div className="p-6 text-lg">Loading seat map...</div>;
 
   const aircraft = seatData.aircraft;
+  const passanger = passangerData;
   const deck = seatData.cabins?.[0]?.deck ?? "MAIN";
 
   return (
@@ -25,7 +32,7 @@ const SeatMap = () => {
 
         {/* Row 1: Flight + Legend */}
         <div className="flex flex-col lg:flex-row justify-between items-start gap-8">
-          <Flight aircraft={aircraft} deck={deck} />
+          <Flight aircraft={aircraft} deck={deck} passanger={passanger} />
           <div className="w-full lg:w-64">
             <div className="bg-white border shadow rounded-lg p-4">
               <h4 className="text-md font-semibold mb-3 text-gray-800 border-b pb-1">Seat Legend</h4>
