@@ -12,15 +12,15 @@ const SeatMap = () => {
   const [selectedSeat, setSelectedSeat] = useState(null);
 
   useEffect(() => {
-    axios.get("http://localhost:8080/api/segment")
+    axios.get("http://localhost:8080/api/segment/738")
       .then((res) => setSegmentData(res.data))
       .catch(console.error);
     
-    axios.get("http://localhost:8080/api/passenger")
+    axios.get("http://localhost:8080/api/passenger/01.01")
       .then((res) => setPassangerData(res.data))
       .catch(console.error);
 
-    axios.get("http://localhost:8080/api/seatmap")
+    axios.get("http://localhost:8080/api/seatmap/738")
       .then((res) => setSeatMapData(res.data))
       .catch(console.error);
   }, [], []);
@@ -56,28 +56,26 @@ const SeatMap = () => {
             </div>
           </div>
           
-          {/* Row 3: Header */}
+          {/* Row 3: Seat Column Header (rendered only once using first cabin) */}
           <div className="overflow-x-auto">
             <div className="flex flex-col items-center space-y-1">
-              {seatmap.cabins.map((cabin, i) => (
-                <div key={i}>
-                  <div className="flex items-center mb-1">
-                    <span className="w-16 pr-2 font-mono text-xs text-gray-500"></span>
-                    {cabin.seatColumns.map((col, idx) => (
-                      <Seat
-                        key={`header-${idx}`}
-                        seat={{
-                          code: col || "",
-                          available: false,
-                          storefrontSlotCode: "HEADER",
-                        }}
-                        isSelected={false}
-                        onClick={() => {}}
-                      />
-                    ))}
-                  </div>
+              {seatmap.cabins.length > 0 && (
+                <div className="flex items-center mb-1">
+                  <span className="w-16 pr-2 font-mono text-xs text-gray-500"></span>
+                  {seatmap.cabins[0].seatColumns.map((col, idx) => (
+                    <Seat
+                      key={`header-${idx}`}
+                      seat={{
+                        code: col || "",
+                        available: false,
+                        storefrontSlotCode: "HEADER",
+                      }}
+                      isSelected={false}
+                      onClick={() => {}}
+                    />
+                  ))}
                 </div>
-              ))}
+              )}
             </div>
           </div>
         </div>
